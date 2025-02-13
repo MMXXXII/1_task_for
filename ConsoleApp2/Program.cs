@@ -2,29 +2,27 @@
 
 public class StudentGrades
 {
-    private int[] gradeCount;
+    private int[] gradeCount = new int[6]; // Храним количество оценок (от 2 до 5)
 
-    public StudentGrades()
-    {
-        gradeCount = new int[6]; // Индексы 2-5 используются для подсчёта оценок
-    }
-
+    // Метод для добавления оценки
     public void AddGrade(int grade)
     {
         if (grade < 2 || grade > 5)
-            throw new ArgumentException("Оценка должна быть от 2 до 5.");
+            throw new ArgumentException("Оценка должна быть от 2 до 5");
 
         gradeCount[grade]++;
     }
 
+    // Метод для получения количества определённой оценки
     public int GetGradeCount(int grade)
     {
         if (grade < 2 || grade > 5)
-            throw new ArgumentException("Оценка должна быть от 2 до 5.");
+            throw new ArgumentException("Оценка должна быть от 2 до 5");
 
         return gradeCount[grade];
     }
 }
+
 
 class Program
 {
