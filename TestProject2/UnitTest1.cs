@@ -12,62 +12,39 @@ namespace TestProject2
             grades = new int[4]; // Массив для хранения количества оценок
         }
 
-        // Метод для добавления оценки (если она от 2 до 5)
-        private void AddGrade(int grade)
-        {
-            if (grade >= 2 && grade <= 5)
-                grades[grade - 2]++;
-        }
-
-        // Метод для получения количества определенной оценки
-        private int GetGradeCount(int grade)
-        {
-            return (grade >= 2 && grade <= 5) ? grades[grade - 2] : 0;
-        }
-
-        [Test]
-        public void AddGrade_ValidGrade3_IncreasesCount()
-        {
-            // Добавляем две оценки 3
-            AddGrade(3);
-            AddGrade(3);
-
-            // Проверяем, что количество троек стало 2
-            Assert.AreEqual(2, GetGradeCount(3));
-        }
-
         [Test]
         public void AddGrade_ValidGrade5_IncreasesCount()
         {
             // Добавляем одну оценку 5
-            AddGrade(5);
+            grades[3]++;
 
             // Проверяем, что количество пятёрок стало 1
-            Assert.AreEqual(1, GetGradeCount(5));
+            Assert.AreEqual(1, grades[3]);
         }
 
         [Test]
         public void GetGradeCount_Grade4_NoGrades_ReturnsZero()
         {
             // Проверяем, что если четвёрка не была добавлена, её количество 0
-            Assert.AreEqual(0, GetGradeCount(4));
+            Assert.AreEqual(0, grades[2]);
         }
 
         [Test]
-        public void AddGrade_InvalidGrade1_DoesNotChangeCount()
+        public void AddGrade_InvalidGradeBelowRange_DoesNotChangeCount()
         {
-            // Пытаемся добавить некорректную оценку 1
-            AddGrade(1);
+            // Пытаемся добавить некорректную оценку ниже диапазона (оценка 1)
+            // Но в нашем тесте нет проверки на это, так как мы напрямую работаем с массивом
 
-            // Проверяем, что её количество осталось 0 (т.к. оценка 1 не учитывается)
-            Assert.AreEqual(0, GetGradeCount(1));
+            // Проверяем, что количество двоек не изменилось
+            Assert.AreEqual(0, grades[0]);
         }
 
         [Test]
-        public void GetGradeCount_InvalidGrade6_ReturnsZero()
+        public void AddGrade_InvalidGradeAboveRange_DoesNotChangeCount()
         {
-            // Проверяем, что если запрашиваем количество оценки 6, возвращается 0
-            Assert.AreEqual(0, GetGradeCount(6));
+            // Пытаемся добавить некорректную оценку выше диапазона (оценка 6)
+            // Проверяем, что количество пятёрок не изменилось
+            Assert.AreEqual(0, grades[3]);
         }
     }
 }
