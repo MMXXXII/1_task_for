@@ -1,50 +1,86 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace TestProject2
 {
     public class StudentGradesTests
     {
-        private int[] grades;
+        private Dictionary<int, int> gradesCount;
 
         [SetUp]
         public void Setup()
         {
-            grades = new int[4]; // Массив для хранения количества оценок
+            gradesCount = new Dictionary<int, int>
+            {
+                { 2, 0 }, // Двойки
+                { 3, 0 }, // Тройки
+                { 4, 0 }, // Четверки
+                { 5, 0 }  // Пятерки
+            };
         }
+
 
         [Test]
-        public void AddGrade_ValidGrade5_IncreasesCount()
+        public void AddMultipleGrades_ValidGrades_IncreasesCount()
         {
-            // Добавляем одну оценку 5
-            grades[3]++;
+            // Добавляем несколько оценок
+            gradesCount[5]++;
+            gradesCount[4]++;
+            gradesCount[4]++;
 
-            // Проверяем, что количество пятёрок стало 1
-            Assert.AreEqual(1, grades[3]);
+            // Проверяем, что количество пятёрок стало 1, а количество четвёрок стало 2
+            Assert.AreEqual(1, gradesCount[5]);
+            Assert.AreEqual(2, gradesCount[4]);
         }
 
-        [Test]
-        public void GetGradeCount_Grade4_NoGrades_ReturnsZero()
-        {
-            // Проверяем, что если четвёрка не была добавлена, её количество 0
-            Assert.AreEqual(0, grades[2]);
-        }
 
         [Test]
         public void AddGrade_InvalidGradeBelowRange_DoesNotChangeCount()
         {
-            // Пытаемся добавить некорректную оценку ниже диапазона (оценка 1)
-            // Но в нашем тесте нет проверки на это, так как мы напрямую работаем с массивом
+            //проверить, что количество двоек не изменилось
+            Assert.AreEqual(0, gradesCount[2]);
+        }
 
-            // Проверяем, что количество двоек не изменилось
-            Assert.AreEqual(0, grades[0]);
+
+        [Test]
+        public void AddGrade_SameGradeMultipleTimes_IncreasesCountCorrectly()
+        {
+            // Добавляем одну пятерку 5 раз
+            for (int i = 0; i < 5; i++)
+            {
+                gradesCount[5]++;
+            }
+
+            // Проверяем, что количество пятёрок стало 5
+            Assert.AreEqual(5, gradesCount[5]);
+        }
+
+
+        [Test]
+        public void GetGradeCount_Grade2_ReturnsZero()
+        {
+            // Проверяем, что если двойка не была добавлена, её количество 0
+            Assert.AreEqual(0, gradesCount[2]);
         }
 
         [Test]
-        public void AddGrade_InvalidGradeAboveRange_DoesNotChangeCount()
+        public void AddGrade_EmptyInput_DoesNotChangeCount()
         {
-            // Пытаемся добавить некорректную оценку выше диапазона (оценка 6)
-            // Проверяем, что количество пятёрок не изменилось
-            Assert.AreEqual(0, grades[3]);
+            string input = "";
+            Assert.AreEqual(0, gradesCount[2]);
+            Assert.AreEqual(0, gradesCount[3]);
+            Assert.AreEqual(0, gradesCount[4]);
+            Assert.AreEqual(0, gradesCount[5]);
+        }
+
+        [Test]
+        public void AddGrade_LettersInput_DoesNotChangeCount()
+        {
+            string input = "A";
+            Assert.AreEqual(0, gradesCount[2]);
+            Assert.AreEqual(0, gradesCount[3]);
+            Assert.AreEqual(0, gradesCount[4]);
+            Assert.AreEqual(0, gradesCount[5]);
         }
     }
 }
